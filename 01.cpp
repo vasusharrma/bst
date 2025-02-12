@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 
 class Node {
@@ -17,7 +18,7 @@ public:
 Node *createTree() {
 
   int data;
-  cout << "vaule enter : " << endl;
+  cout << "enter vaule : " << endl;
   cin >> data;
 
   if (data == -1)
@@ -25,9 +26,7 @@ Node *createTree() {
 
   Node *root = new Node(data);
 
-  cout << root->data << " left : " << " ";
   root->left = createTree();
-  cout << root->data << " right : " << " ";
   root->right = createTree();
 
   return root;
@@ -67,6 +66,34 @@ void postOrderTraversal(Node *root) {
   cout << root->data << " ";
 }
 
+void levelOrderTraversal(Node *root) {
+  queue<Node *> q;
+
+  q.push(root);
+  q.push(nullptr);
+
+  while (q.size() > 1) {
+
+    Node *temp = q.front();
+    q.pop();
+
+    if (temp != nullptr) {
+
+      cout << temp->data << " ";
+      if (temp->left != nullptr) {
+        q.push(temp->left);
+      }
+      if (temp->right != nullptr) {
+
+        q.push(temp->right);
+      }
+    } else {
+      cout << endl;
+      q.push(nullptr);
+    }
+  }
+}
+
 int main() {
 
   Node *root = createTree();
@@ -77,6 +104,7 @@ int main() {
   inOrderTraversal(root);
   cout << endl << "postOrderTraversal" << endl;
   postOrderTraversal(root);
-
+  cout << endl << "levelOrderTraversal" << endl;
+  levelOrderTraversal(root);
   return 0;
 }
